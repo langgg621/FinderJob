@@ -5,8 +5,8 @@ import httpClient from "../httpClient";
 // Action để tạo mới tin tuyển dụng
 export const createApplyAction = createAsyncThunk(
 'apply/create',
-async (applyData:{}) => {
-    const response = await httpClient.post(APPLY_JOB.APPLY, applyData);
+async (id: number) => {
+    const response = await httpClient.post(`${APPLY_JOB.APPLY}/${id}`);
     return response.data;
   }
 );

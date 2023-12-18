@@ -14,6 +14,7 @@ import MyBottomTabsCompany from './BottomTabCompany';
 import MyBottomTabsEmployee from './BottomTabEmployee';
 import inforRecruitment from '../screens/company/recruitment/inforRecruitment';
 import ApplyJob from '../screens/employee/home/apply';
+import InforEmployee from '../screens/employee/acc/inforEmployee';
 
 const Stack = createNativeStackNavigator();
 
@@ -33,7 +34,8 @@ const StackNavigator = () => {
       <Stack.Screen name={NAVIGATION_TITLE.INFO_COM} component={inforCompany} />
       <Stack.Screen name={NAVIGATION_TITLE.INFO_RECR} component={inforRecruitment} />
       <Stack.Screen name={NAVIGATION_TITLE.APPLY_JOB} component={ApplyJob} />
-
+      <Stack.Screen name={NAVIGATION_TITLE.INFO_EMP} component={InforEmployee} />
+      
       
     </Stack.Navigator>
   );

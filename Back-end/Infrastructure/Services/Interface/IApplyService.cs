@@ -5,7 +5,7 @@ namespace DoanDanentang.Services.Interface
 {
 	public interface IApplyService
 	{
-		Task Apply(int Employee, CreateApplyJob job);
+		Task<CreateApplyJob> Apply(int Employee, int job);
 		void CancelApply (int id);
 		List<CreateApplyJob> GetApplyJobs();
 

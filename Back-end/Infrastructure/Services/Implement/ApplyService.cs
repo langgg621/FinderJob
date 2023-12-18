@@ -16,24 +16,23 @@ namespace DoanDanentang.Services.Implement
 			_mapper = mapper;
 			_context = context;
 		}
-        public async Task Apply(int Employee, CreateApplyJob job)
+        public async Task<CreateApplyJob> Apply(int Employee, int job)
         {
-            if (job.RecruitmentId != null)
+            if (job != null)
             {
                 // Check if the employee has already applied for the job
                 bool hasAlreadyApplied = _context.ApplyJobs
-                    .Any(a => a.RecruitmentId == job.RecruitmentId && a.EmployeeId == Employee);
+                    .Any(a => a.RecruitmentId == job && a.EmployeeId == Employee);
 
                 if (!hasAlreadyApplied)
                 {
                     var apply = new ApplyJob();
-                    _mapper.Map(job, apply);
                     apply.EmployeeId = Employee;
-
-                    _context.Add(apply);
+                    apply.RecruitmentId = job;
+                    _context.ApplyJobs.Add(apply);
                     _context.SaveChanges();
-
                     UpdateNumberApply(apply.RecruitmentId);
+                    return _mapper.Map<CreateApplyJob> (apply);
                 }
                 else
                 {
@@ -48,13 +47,11 @@ namespace DoanDanentang.Services.Implement
 
         public void CancelApply(int id)
 		{
-			var apply = _context.ApplyJobs.FirstOrDefault(x => x.Id == id);
-			if (apply != null)
-			{
-				_context.ApplyJobs.Remove(apply);
-				_context.SaveChanges();
-				UpdateNumberApply(apply.RecruitmentId);
-			}
+			ApplyJob apply = _context.ApplyJobs.FirstOrDefault(x => x.RecruitmentId == id);
+			_context.ApplyJobs.Remove(apply);
+			_context.SaveChanges();
+			UpdateNumberApply(apply.RecruitmentId);
+			
 		}
         public List<CreateApplyJob> GetApplyJobs()
         {

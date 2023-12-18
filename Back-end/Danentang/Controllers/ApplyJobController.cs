@@ -19,12 +19,12 @@ namespace DoanDanentang.Controllers
 			_applyService = applyService;
 		}
 		[Authorize(Roles ="Employee")]
-		[HttpPost("apply")]
-		public async Task<IActionResult> Apply(CreateApplyJob applyJob)
+		[HttpPost("apply/{reid}")]
+		public async Task<IActionResult> Apply(int reid)
 		{
             ClaimsPrincipal principal = HttpContext.User;
             var userId = Convert.ToInt32(principal.FindFirstValue(ClaimTypes.NameIdentifier));
-            await _applyService.Apply(userId,applyJob);
+            _applyService.Apply(userId, reid);
 			return Ok("Bạn đã apply job thành công");
 		}
         [HttpDelete("cancelApply")]

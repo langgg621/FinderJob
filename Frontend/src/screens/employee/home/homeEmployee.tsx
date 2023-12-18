@@ -96,7 +96,6 @@ const HomeEmployee =()=>{
           </TouchableOpacity>
         );
     };
-    
     const [showDescription, setShowDescription] = useState(true);
     const [showCompany, setShowCompany] = useState(false);
     const handleItem = (item: IRecr) => {
@@ -106,11 +105,20 @@ const HomeEmployee =()=>{
         setShowDescription(true);
         setShowCompany(false);
     };
+    const [searchInput, setSearchInput] = useState('');
 
+    const handleSearchInputChange = (text) => {
+        setSearchInput(text);
+    };
     const handleCompanyPress = () => {
         setShowDescription(false);
         setShowCompany(true);
     };
+    const filteredList1 = listEntry.filter((item) =>
+        item.title.toLowerCase().includes(searchInput.toLowerCase()) ||
+        item.skills.some(skill => skill.toLowerCase().includes(searchInput.toLowerCase())) ||
+        item.salary.toLowerCase().includes(searchInput.toLowerCase())
+    );
     return (
         <SafeAreaView style={styles.container}>
             <View>
@@ -145,7 +153,8 @@ const HomeEmployee =()=>{
                             <Text style={[styles.buttonText, showCompany && styles.buttonTextPressed]}>Đã apply</Text>
                         </Pressable>
                     </View>
-                    <ScrollView >
+                    <View>
+                        <ScrollView >
                         {showDescription && (
                             <View>
                                 <FlatList
@@ -164,6 +173,8 @@ const HomeEmployee =()=>{
                             </View>
                         )}
                     </ScrollView>
+                    </View>
+                    
                 </View>
             </View>
         </SafeAreaView>

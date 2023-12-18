@@ -90,17 +90,30 @@ const ApplyJob = () => {
         setShowCompany(true);
     };
     const handleApply = async () =>{
-        dispatch(createApplyAction(recrId))
+        setLoading(false);
+        dispatch(createApplyAction(Number(recrId)))
         .then(res =>{
+            setLoading(true)
             showToast("Apply thành công",{duration:2})
-            navigation.navigate(NAVIGATION_TITLE.HOME_EMP);
+            console.log(res)
+            navigation.goBack();
+            setLoading(false)
+        })
+        .catch(err =>{
+            setLoading(false)
+        })
+    }
+    const handlercancel = async()=>{
+        dispatch(deleteApplyAction(Number(recrId)))
+        .then(res =>{
+            showToast("Hủy apply thành công",{duration:2})
+            navigation.goBack();
             setLoading
         })
         .catch(err =>{
             setLoading(false)
         })
     }
-
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.head1}>
@@ -134,9 +147,15 @@ const ApplyJob = () => {
                     </View>
                 )}
             </ScrollView>
-            <TouchableOpacity style={styles.btn} onPress={handleApply}>
-                <Text style={styles.logintxt}>Apply</Text>
-            </TouchableOpacity>
+            <View style ={styles.modal}>
+                <TouchableOpacity style={[styles.btn]} onPress={handleApply}>
+                    <Text style={styles.logintxt}>Apply</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={[styles.btn]} onPress={handlercancel}>
+                    <Text style={[styles.logintxt]}>Hủy</Text>
+                </TouchableOpacity>
+            </View>
+            
         </SafeAreaView>
     );
 };
@@ -212,7 +231,7 @@ const styles = StyleSheet.create({
         marginTop: 10,
         backgroundColor: "#F13333",
         height: 45,
-        width: 330,
+        width: 150,
         borderRadius: 10,
         alignItems: "center",
         justifyContent: "center",
