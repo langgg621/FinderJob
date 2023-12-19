@@ -17,8 +17,14 @@ const ApplyJob = () => {
     const [loading, setLoading] = useState(false);
     const [showDescription, setShowDescription] = useState(true);
     const [showCompany, setShowCompany] = useState(false);
-    const [skills, setSkills] = useState<string[]>([]);
-    
+    const [skill1, setSkill1] = useState<string>()
+    const [skill2, setSkill2] = useState<string>()
+    const [skill3, setSkill3] = useState<string>()
+    const [candidate1, setCandidate1] = useState<string>()
+    const [candidate2, setCandidate2] = useState<string>()
+    const [candidate3, setCandidate3] = useState<string>()
+    const [candidate4, setCandidate4] = useState<string>()
+
     const [reInfo, setInfoRe] = useState<IRecr>({
         id: recrId,
         title: '',
@@ -46,13 +52,29 @@ const ApplyJob = () => {
         const fetchData = async () => {
             await getCompany();
             await getRecruitment();
-            
         };
-    
         fetchData();
     }, []);
     
-
+    useEffect(() => {
+        getSkill()
+    }, [reInfo])
+    useEffect(()=>{
+        getCandidate()
+    },[reInfo])
+    const getSkill =()=>{
+        const [skill1, skill2, skill3] = reInfo.skillRequire.split('.');
+        setSkill1(skill1);
+        setSkill2(skill2);
+        setSkill3(skill3);
+    }
+    const getCandidate =()=>{
+        const [candidate1, candidate2, candidate3, candidate4] = reInfo.candidateRecruitment.split('.');
+        setCandidate1(candidate1);
+        setCandidate2(candidate2);
+        setCandidate3(candidate3);
+        setCandidate4(candidate4)
+    }
     const getRecruitment = async() => {
         setLoading(true)
         dispatch(getRecruitmentAction(recrId))
@@ -138,13 +160,63 @@ const ApplyJob = () => {
             <ScrollView>
                 {showDescription && (
                     <View style={styles.des}>
-                        <Text>{reInfo.jobDescription}</Text>
+                        <View style={styles.jobDescriptionContainer}>
+                            <Text style={styles.jobDescriptionTitle}>Job Description</Text>
+                            <Text style={styles.jobDescriptionText}>
+                                {reInfo?.jobDescription}
+                            </Text>
+                            </View>
+                        <View style={styles.jobDescriptionContainer}>
+                            <Text style={styles.jobDescriptionTitle}>A Must Have Skill</Text>
+                            <Text style={styles.jobDescriptionText}>
+                            {'\u25CF'} {skill1} {'\n'} {'\n'}
+                            {'\u25CF'} {skill2} {'\n'} {'\n'}
+                            {'\u25CF'} {skill3} {'\n'} {'\n'}
+                    </Text>
+                    </View>
+                    <View style={styles.jobDescriptionContainer}>
+                    <Text style={styles.jobDescriptionTitle}>Candidate Recruitment</Text>
+                        <Text style={styles.jobDescriptionText}>
+                            {'\u25CF'} {candidate1} {'\n'} {'\n'}
+                            {'\u25CF'} {candidate2} {'\n'} {'\n'}
+                            {'\u25CF'} {candidate3} {'\n'} {'\n'}
+                            {'\u25CF'} {candidate4} {'\n'} {'\n'}
+                        </Text>
+                    </View>
                     </View>
                 )}
                 {showCompany && (
-                    <View style={styles.des}>
-                        <Text>{infoUser.name}</Text>
-                    </View>
+                    <View style={styles.container}>
+                    <View style={styles.jobDescriptionContainer}>
+                            <Text style={styles.jobDescriptionTitle}>General information</Text>
+                            <View style={styles.infor}>
+                              <View>
+                              <Text style={styles.title1}>Company Type</Text>
+                              <Text style={styles.content}>{infoUser?.companyType}</Text>
+                              </View>
+                              <View>
+                              <Text style={styles.title1}>Company Size    </Text>
+                              <Text style={styles.content}>{infoUser?.companySize}</Text>
+                              </View>
+                          </View>
+                          <View style={styles.infor}>
+                              <View>
+                              <Text style={styles.title1}>Working day</Text>
+                              <Text style={styles.content}>{infoUser?.workingDay}</Text>
+                              </View>
+                              <View>
+                              <Text style={styles.title1}>Company Policy </Text>
+                              <Text style={styles.content}>{reInfo?.overtimePolicy}</Text>
+                              </View>
+                          </View>
+                          </View>
+                          <View style={styles.jobDescriptionContainer}>
+                            <Text style={styles.jobDescriptionTitle}>Company Overview</Text>
+                            <Text style={styles.jobDescriptionText}>
+                              {infoUser?.companyOverview}
+                            </Text>
+                          </View>
+                  </View>
                 )}
             </ScrollView>
             <View style ={styles.modal}>
@@ -163,9 +235,8 @@ const ApplyJob = () => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#F5F5F5',
+        backgroundColor: '#fff',
         padding: 20,
-        marginHorizontal:15
     },
     head1: {
         flexDirection: 'row',
@@ -184,6 +255,9 @@ const styles = StyleSheet.create({
         color: '#FF1E56',
         fontSize: 14,
         fontWeight: '500',
+    },
+    content:{
+        fontSize:15
     },
     title: {
         fontSize: 20,
@@ -209,6 +283,17 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         width:150,
         // marginLeft:10
+    },
+    jobDescriptionContainer: {paddingHorizontal: 10, paddingVertical: 20},
+    jobDescriptionTitle: {
+      color: 'black',
+      fontWeight: '500',
+      fontSize: 20,
+      marginBottom:10,
+      marginTop:3
+    },
+    jobDescriptionText:{
+        color: 'gray'
     },
     buttonText: {
         color: 'black',
@@ -250,7 +335,18 @@ const styles = StyleSheet.create({
         margin: 5,
         borderWidth: 1,
         borderColor: '#ccc',
-    }
+    },
+    infor: {
+        flexDirection:'row',
+        justifyContent:'space-between',
+        alignItems:'flex-start',
+        width:'90%',
+        marginVertical:10
+    },
+    title1:{
+        color:'#808080',
+        fontSize:15
+    },
 });
 
 export default ApplyJob;
