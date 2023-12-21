@@ -17,6 +17,8 @@ const ApplyJob = () => {
     const [loading, setLoading] = useState(false);
     const [showDescription, setShowDescription] = useState(true);
     const [showCompany, setShowCompany] = useState(false);
+    const [skills, setSkills] = useState<string[]>([]);
+    
     const [reInfo, setInfoRe] = useState<IRecr>({
         id: recrId,
         title: '',
@@ -48,10 +50,7 @@ const ApplyJob = () => {
         fetchData();
     }, []);
     
-    const formatData = (data: string)=>{
-        data =  data.replace(/\n\n/g,'\n\u25CF');
-        return data
-    }
+
     const getRecruitment = async() => {
         setLoading(true)
         dispatch(getRecruitmentAction(recrId))
@@ -138,23 +137,7 @@ const ApplyJob = () => {
             <ScrollView>
                 {showDescription && (
                     <View style={styles.des}>
-                        <View style={styles.jobDescriptionContainer}>
-                            <Text style={styles.jobDescriptionTitle}>Job Description</Text>
-                            <Text style={styles.jobDescriptionText}>
-                                {formatData(reInfo?.jobDescription)}
-                            </Text>
-                            </View>
-                        <View style={styles.jobDescriptionContainer}>
-                            <Text style={styles.jobDescriptionTitle}>A Must Have Skill</Text>
-                            <Text style={styles.jobDescriptionText}>{(reInfo.skillRequire)}
-                    </Text>
-                    </View>
-                    <View style={styles.jobDescriptionContainer}>
-                    <Text style={styles.jobDescriptionTitle}>Candidate Recruitment</Text>
-                        <Text style={styles.jobDescriptionText}>
-                            {(reInfo.jobDescription)}
-                        </Text>
-                    </View>
+                        <Text>{reInfo.jobDescription}</Text>
                     </View>
                 )}
                 {showCompany && (
@@ -207,9 +190,9 @@ const ApplyJob = () => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#fff',
-        // padding: 20,
-        marginHorizontal:10
+        backgroundColor: '#F5F5F5',
+        padding: 20,
+        marginHorizontal:15
     },
     head1: {
         flexDirection: 'row',
