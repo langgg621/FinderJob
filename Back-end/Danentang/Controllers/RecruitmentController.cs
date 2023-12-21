@@ -126,7 +126,7 @@ namespace DoanDanentang.Controllers
 			}
 			catch { return BadRequest(); }
 		}
-        [HttpGet("search/salary")]
+        [HttpGet("search/salary/{start}/{end}")]
         public async Task<IActionResult> SearchRecruitmentsBySalary(int start, int end)
         {
             try
@@ -137,34 +137,34 @@ namespace DoanDanentang.Controllers
             catch { return BadRequest(); }
         }
 
-        [HttpGet("search/skill")]
-        public async Task<IActionResult> SearchRecruitmentsBySkill(string searchQuery)
+        [HttpGet("search/skill/{skill}")]
+        public async Task<IActionResult> SearchRecruitmentsBySkill(string skill)
         {
             try
             {
-                var result = await _recruitmentService.SearchRecruitmentsBySkill(searchQuery);
+                var result = await _recruitmentService.SearchRecruitmentsBySkill(skill);
                 return Ok(result);
             }
             catch { return BadRequest(); }
         }
 
-        [HttpGet("search/address")]
-        public async Task<IActionResult> SearchRecruitmentsByAddress(string searchQuery)
+        [HttpGet("search/address/{address}")]
+        public async Task<IActionResult> SearchRecruitmentsByAddress(string address)
         {
             try
             {
-                var result = await _recruitmentService.SearchRecruitmentsByAddress(searchQuery);
+                var result = await _recruitmentService.SearchRecruitmentsByAddress(address);
                 return Ok(result);
             }
             catch { return BadRequest(); }
         }
 
-        [HttpGet("search/title")]
-        public async Task<IActionResult> SearchRecruitmentsByTitle(string searchQuery)
+        [HttpGet("search/title/{title}")]
+        public async Task<IActionResult> SearchRecruitmentsByTitle(string title)
         {
             try
             {
-                var result = await _recruitmentService.SearchRecruitmentsByTitle(searchQuery);
+                var result = await _recruitmentService.SearchRecruitmentsByTitle(title);
                 return Ok(result);
             }
             catch { return BadRequest(); }

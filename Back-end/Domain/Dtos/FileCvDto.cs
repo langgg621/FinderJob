@@ -11,8 +11,8 @@ namespace Domain.Dtos
     public class FileCvDto
     {
         public int EmployeeId { get; set; }
-        public EmployeeDto Employee { get; set; }
-        public string FileName { get; set; }
+        public string? FileName { get; set; }
+        public string? FilePath {  get; set; }
 
     }
 }

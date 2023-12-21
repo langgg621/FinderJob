@@ -17,8 +17,6 @@ const ApplyJob = () => {
     const [loading, setLoading] = useState(false);
     const [showDescription, setShowDescription] = useState(true);
     const [showCompany, setShowCompany] = useState(false);
-    const [skills, setSkills] = useState<string[]>([]);
-    
     const [reInfo, setInfoRe] = useState<IRecr>({
         id: recrId,
         title: '',
@@ -46,13 +44,14 @@ const ApplyJob = () => {
         const fetchData = async () => {
             await getCompany();
             await getRecruitment();
-            
         };
-    
         fetchData();
     }, []);
     
-
+    const formatData = (data: string)=>{
+        data =  data.replace(/\n\n/g,'\n\u25CF');
+        return data
+    }
     const getRecruitment = async() => {
         setLoading(true)
         dispatch(getRecruitmentAction(recrId))
@@ -121,6 +120,7 @@ const ApplyJob = () => {
                 <View style={styles.inforHead}>
                     <Text style={styles.lineHead1}>{infoUser.name}</Text>
                     <Text style={styles.title}>{reInfo.title}</Text>
+                    <Text style={styles.title}>{reInfo.salary}</Text>
                     <Text style={styles.address}>{reInfo.address}</Text>
                     <View style={styles.row}>
                 </View>
@@ -138,13 +138,57 @@ const ApplyJob = () => {
             <ScrollView>
                 {showDescription && (
                     <View style={styles.des}>
-                        <Text>{reInfo.jobDescription}</Text>
+                        <View style={styles.jobDescriptionContainer}>
+                            <Text style={styles.jobDescriptionTitle}>Job Description</Text>
+                            <Text style={styles.jobDescriptionText}>
+                                {formatData(reInfo?.jobDescription)}
+                            </Text>
+                            </View>
+                        <View style={styles.jobDescriptionContainer}>
+                            <Text style={styles.jobDescriptionTitle}>A Must Have Skill</Text>
+                            <Text style={styles.jobDescriptionText}>{(reInfo.skillRequire)}
+                    </Text>
+                    </View>
+                    <View style={styles.jobDescriptionContainer}>
+                    <Text style={styles.jobDescriptionTitle}>Candidate Recruitment</Text>
+                        <Text style={styles.jobDescriptionText}>
+                            {(reInfo.jobDescription)}
+                        </Text>
+                    </View>
                     </View>
                 )}
                 {showCompany && (
-                    <View style={styles.des}>
-                        <Text>{infoUser.name}</Text>
-                    </View>
+                    <View style={styles.container}>
+                    <View style={styles.jobDescriptionContainer}>
+                            <Text style={styles.jobDescriptionTitle}>General information</Text>
+                            <View style={styles.infor}>
+                              <View>
+                              <Text style={styles.title1}>Company Type</Text>
+                              <Text style={styles.content}>{infoUser?.companyType}</Text>
+                              </View>
+                              <View>
+                              <Text style={styles.title1}>Company Size    </Text>
+                              <Text style={styles.content}>{infoUser?.companySize}</Text>
+                              </View>
+                          </View>
+                          <View style={styles.infor}>
+                              <View>
+                              <Text style={styles.title1}>Working day</Text>
+                              <Text style={styles.content}>{infoUser?.workingDay}</Text>
+                              </View>
+                              <View>
+                              <Text style={styles.title1}>Company Policy </Text>
+                              <Text style={styles.content}>{reInfo?.overtimePolicy}</Text>
+                              </View>
+                          </View>
+                          </View>
+                          <View style={styles.jobDescriptionContainer}>
+                            <Text style={styles.jobDescriptionTitle}>Company Overview</Text>
+                            <Text style={styles.jobDescriptionText}>
+                              {infoUser?.companyOverview}
+                            </Text>
+                          </View>
+                  </View>
                 )}
             </ScrollView>
             <View style ={styles.modal}>
@@ -163,9 +207,9 @@ const ApplyJob = () => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#F5F5F5',
-        padding: 20,
-        marginHorizontal:15
+        backgroundColor: '#fff',
+        // padding: 20,
+        marginHorizontal:10
     },
     head1: {
         flexDirection: 'row',
@@ -184,6 +228,9 @@ const styles = StyleSheet.create({
         color: '#FF1E56',
         fontSize: 14,
         fontWeight: '500',
+    },
+    content:{
+        fontSize:15
     },
     title: {
         fontSize: 20,
@@ -209,6 +256,17 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         width:150,
         // marginLeft:10
+    },
+    jobDescriptionContainer: {paddingHorizontal: 10, paddingVertical: 20},
+    jobDescriptionTitle: {
+      color: 'black',
+      fontWeight: '500',
+      fontSize: 20,
+      marginBottom:10,
+      marginTop:3
+    },
+    jobDescriptionText:{
+        color: 'gray'
     },
     buttonText: {
         color: 'black',
@@ -250,7 +308,18 @@ const styles = StyleSheet.create({
         margin: 5,
         borderWidth: 1,
         borderColor: '#ccc',
-    }
+    },
+    infor: {
+        flexDirection:'row',
+        justifyContent:'space-between',
+        alignItems:'flex-start',
+        width:'90%',
+        marginVertical:10
+    },
+    title1:{
+        color:'#808080',
+        fontSize:15
+    },
 });
 
 export default ApplyJob;

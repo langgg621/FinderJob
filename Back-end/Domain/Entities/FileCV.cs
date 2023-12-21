@@ -11,8 +11,8 @@ namespace Domain.Entities
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         public int EmployeeId { get; set; }
-        public byte[] Data { get; set; }
-        public string FileName { get; set; }
+        public string? FilePath { get; set; }
+        public string? FileName { get; set; }
         public Employee Employee { get; set; }
     }
 }

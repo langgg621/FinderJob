@@ -46,9 +46,7 @@ const AddRecruitment =()=>{
         })).then(res =>{
                 setLoading(true)
                 console.log(res)
-                showToast('Thêm thành công', {duration:2,})
-                navigation.navigate(NAVIGATION_TITLE.HOME_COM)
-
+                navigation.navigate(NAVIGATION_TITLE.HOME_COM)      
                 setRecr({
                     title: '',
                     jobDescription: '',
@@ -122,7 +120,7 @@ const AddRecruitment =()=>{
                 <TextInput 
                     style={styles.textinput} 
                     placeholder={"Nhập số"}
-                    value={recr.salary}
+                    value={(recr.salary)}
                     onChangeText={onChangeText('salary')}
                     keyboardType="numeric"
                     />
@@ -135,12 +133,12 @@ const AddRecruitment =()=>{
                     />
                 <Text style={styles.inputLabel}>Trạng thái tuyển dụng</Text>
                 <View>
-                    <Picker
+                <Picker
                     selectedValue={recr.status}
                     onValueChange={handleStatusChange}
                     placeholder="Trạng thái">
                     <Picker.Item label="Đang tuyển" value="Đang tuyển" />
-                    <Picker.Item label="Hết hạn" value="hết hạn" />
+                    <Picker.Item label="Hết hạn" value="Hết hạn" />
                 </Picker>
                 </View>
                 

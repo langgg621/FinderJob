@@ -126,10 +126,7 @@ namespace Domain.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ImagePath")
-                        .IsRequired()
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("nvarchar(max)")
-                        .HasDefaultValue("default_image_path");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -169,10 +166,7 @@ namespace Domain.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("ImagePath")
-                        .IsRequired()
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("nvarchar(max)")
-                        .HasDefaultValue("default_image_path");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -201,14 +195,14 @@ namespace Domain.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<byte[]>("Data")
-                        .IsRequired()
-                        .HasColumnType("varbinary(max)");
-
                     b.Property<int>("EmployeeId")
                         .HasColumnType("int");
 
                     b.Property<string>("FileName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FilePath")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -222,21 +216,17 @@ namespace Domain.Migrations
 
             modelBuilder.Entity("DoanDanentang.Entities.ApplyJob", b =>
                 {
-                    b.HasOne("Domain.Entities.Employee", "Employee")
+                    b.HasOne("Domain.Entities.Employee", null)
                         .WithMany("ApplyJobs")
                         .HasForeignKey("EmployeeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("DoanDanentang.Entities.Recruitment", "Recruitment")
+                    b.HasOne("DoanDanentang.Entities.Recruitment", null)
                         .WithMany("ApplyJobs")
                         .HasForeignKey("RecruitmentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Employee");
-
-                    b.Navigation("Recruitment");
                 });
 
             modelBuilder.Entity("DoanDanentang.Entities.Recruitment", b =>

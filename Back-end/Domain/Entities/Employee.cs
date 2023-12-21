@@ -36,7 +36,7 @@ namespace Domain.Entities
         [ForeignKey("EmployeeId")]
 
         public ICollection<ApplyJob>? ApplyJobs { get; set; }
-		public string ImagePath { get; set; }
+		public string? ImagePath { get; set; }
 
     }
 }

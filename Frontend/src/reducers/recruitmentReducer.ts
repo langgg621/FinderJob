@@ -9,6 +9,10 @@ import {
   getRecruitmentByCompanyAction,
   getRecruitmentHasBeenAppliedByEmployeeAction,
   getRecruitmentNotAppliedByEmployeeAction,
+  searchSalaryAction,
+  searchSkillAction,
+  searchAddressAction,
+  searchTitleAction
 } from '../actions/recruitmentActions';
 
 interface IRecr {
@@ -172,6 +176,82 @@ const recruitmentSlice = createSlice({
               };
         })
         builder.addCase(getRecruitmentNotAppliedByEmployeeAction.rejected, (state) => {
+            return {
+                ...state,
+                loading: true,
+              };
+        })
+        builder.addCase(searchSalaryAction.pending, (state) => {
+          return {
+              ...state,
+              loading: true,
+            };
+        })
+        builder.addCase(searchSalaryAction.fulfilled, (state, action) => {
+            return {
+                ...state,
+                loading: false,
+                res: action.payload.data
+              };
+        })
+        builder.addCase(searchSalaryAction.rejected, (state) => {
+            return {
+                ...state,
+                loading: true,
+              };
+        })
+        builder.addCase(searchSkillAction.pending, (state) => {
+          return {
+              ...state,
+              loading: true,
+            };
+        })
+        builder.addCase(searchSkillAction.fulfilled, (state, action) => {
+            return {
+                ...state,
+                loading: false,
+                res: action.payload.data
+              };
+        })
+        builder.addCase(searchSkillAction.rejected, (state) => {
+            return {
+                ...state,
+                loading: true,
+              };
+        })
+        builder.addCase(searchAddressAction.pending, (state) => {
+          return {
+              ...state,
+              loading: true,
+            };
+        })
+        builder.addCase(searchAddressAction.fulfilled, (state, action) => {
+            return {
+                ...state,
+                loading: false,
+                res: action.payload.data
+              };
+        })
+        builder.addCase(searchAddressAction.rejected, (state) => {
+            return {
+                ...state,
+                loading: true,
+              };
+        })
+        builder.addCase(searchTitleAction.pending, (state) => {
+          return {
+              ...state,
+              loading: true,
+            };
+        })
+        builder.addCase(searchTitleAction.fulfilled, (state, action) => {
+            return {
+                ...state,
+                loading: false,
+                res: action.payload.data
+              };
+        })
+        builder.addCase(searchTitleAction.rejected, (state) => {
             return {
                 ...state,
                 loading: true,

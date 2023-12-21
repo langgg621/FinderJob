@@ -17,6 +17,6 @@ export const NAVIGATION_TITLE = {
   ACC_EMP:'account',
   TAB_EMP:'tabEmployee',
   CHANGE_PASS_EMP:'changePasswordEmployee',
-  UP_CV: 'upCv',
   APPLY_JOB:'apply',
+  FIND:'search'
 };

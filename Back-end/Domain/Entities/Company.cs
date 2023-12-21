@@ -24,7 +24,7 @@ namespace Domain.Entities
         [MinLength(6, ErrorMessage = "Password must min 8 chart")]
         public string Password {  get; set; }
 		public ICollection<Recruitment>? Recruitments { get; set; }
-        public string ImagePath { get; set; } 
+        public string? ImagePath { get; set; } 
 
 
 

@@ -2,11 +2,11 @@ import React, { useCallback } from "react";
 import { Image, View } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { NAVIGATION_TITLE } from "../constants/navigation";
-import upCV from "../screens/employee/tool/upCv";
 import InforEmployee from "../screens/employee/acc/inforEmployee";
 import HomeEmployee from "../screens/employee/home/homeEmployee";
 import { TabsDataEmployee } from "../constants/bottomTabEmployee";
 import AccEmployee from "../screens/employee/acc/account";
+import SearchScreen from "../screens/employee/home/searchRecruitment";
 
 const MyBottomTabsEmployee = () => {
   const Tab = createBottomTabNavigator();
@@ -67,8 +67,8 @@ const MyBottomTabsEmployee = () => {
         options={getOptions}
       />
       <Tab.Screen
-        name={NAVIGATION_TITLE.UP_CV}
-        component={upCV}
+        name={NAVIGATION_TITLE.FIND}
+        component={SearchScreen}
         options={getOptions}
       />
       <Tab.Screen

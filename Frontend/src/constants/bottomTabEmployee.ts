@@ -9,7 +9,7 @@ export const TabsDataEmployee = [
     },
     {
         id: 2,
-        name: 'upCv',
+        name: 'SearchScreen',
         icon: IconTabs.tool,
         color: 'gray',
     },

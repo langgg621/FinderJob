@@ -10,7 +10,6 @@ import { getEmployeeAction } from "../../../actions/employeeActions";
 import Banner from "../../../component/advertise";
 
 const HomeEmployee =()=>{
-    const isFocused = useIsFocused();
     const dispatch = useDispatch<any>();
     const navigation = useNavigation<any>();
     const [listEntry, setListEntry] = useState([]);
@@ -32,7 +31,7 @@ const HomeEmployee =()=>{
         getInfoUser()
         getListRecruitment()
         getListRecruitmentHasBeenApply()
-    }, [isFocused]);
+    }, []);
     const getInfoUser = () => {
         setLoading(false)
         dispatch(getEmployeeAction())
@@ -105,20 +104,11 @@ const HomeEmployee =()=>{
         setShowDescription(true);
         setShowCompany(false);
     };
-    const [searchInput, setSearchInput] = useState('');
 
-    const handleSearchInputChange = (text) => {
-        setSearchInput(text);
-    };
     const handleCompanyPress = () => {
         setShowDescription(false);
         setShowCompany(true);
     };
-    const filteredList1 = listEntry.filter((item) =>
-        item.title.toLowerCase().includes(searchInput.toLowerCase()) ||
-        item.skills.some(skill => skill.toLowerCase().includes(searchInput.toLowerCase())) ||
-        item.salary.toLowerCase().includes(searchInput.toLowerCase())
-    );
     return (
         <SafeAreaView style={styles.container}>
             <View>
@@ -132,12 +122,13 @@ const HomeEmployee =()=>{
                         <Text style={{fontSize:20, color: '#fff'}} >{infoUser.name}</Text>
                     </TouchableOpacity>
                 </View>
-                <View style={styles.sreachview}>
-                    <View style={styles.sreach}>
+                <View style={styles.sreachview} >
+                    <TouchableOpacity style={styles.sreach} onPress={()=> navigation.navigate(NAVIGATION_TITLE.FIND)}>
+                        
                         <Image style={styles.imagesreach} source={require('../../../../assets/iconsreach.jpg')}/>
                         <TextInput placeholder={"Find comapny, job, people"}></TextInput>
-                    </View>
-                    <TouchableOpacity style={styles.filterbtn}>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.filterbtn} onPress={()=> navigation.navigate(NAVIGATION_TITLE.FIND)}>
                         <Image style={styles.imagefilter} source={require('../../../../assets/ok.jpg')}/>
                     </TouchableOpacity>
                 </View >
@@ -324,4 +315,3 @@ const styles = StyleSheet.create({
     }
 });
 export default HomeEmployee
-

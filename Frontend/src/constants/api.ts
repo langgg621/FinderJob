@@ -37,5 +37,8 @@ export const RECRUITMENT = {
     GET_BY_COMPANY:"Recruitment/getbycompany",
     GET_RECRUITMENT_HAS_BEEN_APPLY_BY_EMPLOYEE:"Recruitment/recruitment-has-been-applied-by-employee",
     GET_RECRUITMENT_NOT_APPLY_BY_EMPLOYEE:"Recruitment/recruitment-not-applied-by-employee",
-    
+    SEARCH_SALARY:"Recruitment/search/salary",
+    SEARCH_SKILL:"Recruitment/search/address",
+    SEARCH_ADDRESS:"Recruitment/search/address",
+    SEARCH_TITLE:"Recruitment/search/title"
 }

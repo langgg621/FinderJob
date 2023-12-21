@@ -78,3 +78,31 @@ export const getRecruitmentNotAppliedByEmployeeAction = createAsyncThunk(
     return response.data;
   }
 );
+export const searchSalaryAction = createAsyncThunk(
+  'recruitment/searchbysalary',
+  async ({ start, end }: { start: number; end: number }) => {
+    const response = await httpClient.get(`${RECRUITMENT.SEARCH_SALARY}/${start}/${end}`);
+    return response.data;
+  }
+);
+export const searchSkillAction = createAsyncThunk(
+  'recruitment/searchbyskill',
+  async (skill: string) => {
+    const response = await httpClient.get(`${RECRUITMENT.SEARCH_SKILL}?skill=${skill}`);
+    return response.data;
+  }
+);
+export const searchAddressAction = createAsyncThunk(
+  'recruitment/searchbyaddress',
+  async (add: string) => {
+    const response = await httpClient.get(`${RECRUITMENT.SEARCH_ADDRESS}?address=${add}`);
+    return response.data;
+  }
+);
+export const searchTitleAction = createAsyncThunk(
+  'recruitment/searchbytitle',
+  async (title: string) => {
+    const response = await httpClient.get(`${RECRUITMENT.SEARCH_TITLE}?title=${title}`);
+    return response.data;
+  }
+);

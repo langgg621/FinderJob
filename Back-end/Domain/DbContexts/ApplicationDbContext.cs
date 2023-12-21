@@ -18,12 +18,7 @@ namespace DoanDanentang.Domain.DbContexts
             .HasOne(e => e.FileCV)
             .WithOne(cv => cv.Employee)
             .HasForeignKey<FileCV>(cv => cv.EmployeeId);
-            modelBuilder.Entity<Company>()
-            .Property(c => c.ImagePath)
-            .HasDefaultValue("default_image_path");
-            modelBuilder.Entity<Employee>()
-            .Property(c => c.ImagePath)
-            .HasDefaultValue("default_image_path");
+
 
         }
 

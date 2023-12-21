@@ -23,86 +23,29 @@ namespace DoanDanentang.Controllers
             try
             {
                 ClaimsPrincipal principal = HttpContext.User;
-                var employeeId = Convert.ToInt32(principal.FindFirstValue(ClaimTypes.NameIdentifier));
-                var result = await _fileService.PostFile(file, employeeId);
-                if (result == null)
-                {
-                    return BadRequest("Invalid file");
-                }
+                var empId = Convert.ToInt32(principal.FindFirstValue(ClaimTypes.NameIdentifier));
+                var fileDto = await _fileService.PostFile(file, empId);
 
-                return Ok(result);
+                return Ok(fileDto); // You may customize the response based on your needs
             }
             catch (Exception ex)
             {
+                // Log the exception
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
-
-        [HttpGet("download/{id}")]
-        public async Task<IActionResult> DownloadFile(int id)
-        {
-            try
-            {
-                await _fileService.DownloadFileById(id);
-                return Ok("File downloaded successfully");
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"Internal server error: {ex.Message}");
-            }
-        }
-
-        [HttpGet("display/{id}")]
-        public async Task<IActionResult> DisplayFile(int id)
-        {
-            try
-            {
-                return await _fileService.DisplayFileById(id);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"Internal server error: {ex.Message}");
-            }
-        }
-        [HttpDelete("delete{fileId}")]
-        public async Task<IActionResult> DeleteFile(int fileId)
-        {
-            try
-            {
-                _fileService.DeleteFileByIdAsync(fileId);
-                return Ok();
-            }
-            catch (Exception ex)
-            {
-                // Log the exception and return an error response
-                return StatusCode(500, new { Message = "Internal server error." });
-            }
-        }
-        [Authorize(Roles = "Employee")]
-        [HttpGet("get-all-by-employeeId")]
-        public async Task<IActionResult> GetFileByEmployeeId()
+        [Authorize]
+        [HttpPost("getcv")]
+        public async Task<IActionResult> GetCv()
         {
             try
             {
                 ClaimsPrincipal principal = HttpContext.User;
-                var employeeId = Convert.ToInt32(principal.FindFirstValue(ClaimTypes.NameIdentifier));
-                var files = await _fileService.GetFilesByEmployeeIdAsync(employeeId);
-
-                if (files.Count > 0)
-                {
-                    return Ok(files);
-                }
-                else
-                {
-                    return NotFound(new { Message = "No files found for the specified employee." });
-                }
+                var empId = Convert.ToInt32(principal.FindFirstValue(ClaimTypes.NameIdentifier));
+                var file = await _fileService.GetCv(empId);
+                return Ok(file);
             }
-            catch (Exception ex)
-            {
-                // Log the exception and return an error response
-                return StatusCode(500, new { Message = "Internal server error." });
-            }
-
+            catch (Exception ex) { return BadRequest(ex.Message); }
         }
     }
 }

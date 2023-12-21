@@ -58,7 +58,7 @@ const InforRecruitment = () => {
             setLoading(true)
             console.log(res)
             ToastAndroid.show('Sửa thông tin bài viết thành công', ToastAndroid.SHORT)
-            navigation.navigate(NAVIGATION_TITLE.HOME_COM)
+            navigation.goBack()
             console.log('Sửa thông tin bài viết thành công')
             setLoading(false)
         
@@ -115,7 +115,7 @@ const InforRecruitment = () => {
                 <TextInput 
                     style={styles.textinput} 
                     placeholder={"Nhập số"}
-                    value={reInfo.salary}
+                    value={(reInfo.salary)}
                     onChangeText={onChangeText('salary')}
                     keyboardType="numeric"
                     />
