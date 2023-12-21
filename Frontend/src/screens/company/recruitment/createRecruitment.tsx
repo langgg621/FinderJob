@@ -57,7 +57,6 @@ const AddRecruitment =()=>{
                     overtimePolicy: '',
                     status: '',
                     imagePath:'',
-
                 })
                 setLoading(false)
 

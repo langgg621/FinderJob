@@ -43,29 +43,27 @@ const ApplyJob = () => {
     });
 
     useEffect(() => {
-        const fetchData = async () => {
-            await getCompany();
-            await getRecruitment();
-        };
-        fetchData();
+        getCompany();
+        getRecruitment();
+        
     }, []);
     
 
-    const getRecruitment = async() => {
+    const getRecruitment = () => {
         setLoading(true)
         dispatch(getRecruitmentAction(recrId))
             .then((res) => {
-                
+                setLoading(true)
                 setInfoRe(res?.payload.result);
                 getCompany
                 setLoading(false);
-                
+                console.log(res?.payload.result)
             })
             .catch((err) => {
                 setLoading(false);
             });
     };
-    const getCompany = async () => {
+    const getCompany =  () => {
         setLoading(false);
         dispatch(getCompanyByIdAction(Number(recrId)))
             .then((res) => {
@@ -94,7 +92,7 @@ const ApplyJob = () => {
             setLoading(true)
             showToast("Apply thành công",{duration:2})
             console.log(res)
-            navigation.goBack();
+            navigation.navigate(NAVIGATION_TITLE.HOME_EMP);
             setLoading(false)
         })
         .catch(err =>{
@@ -105,7 +103,7 @@ const ApplyJob = () => {
         dispatch(deleteApplyAction(Number(recrId)))
         .then(res =>{
             showToast("Hủy apply thành công",{duration:2})
-            navigation.goBack();
+            navigation.navigate(NAVIGATION_TITLE.HOME_EMP);
             setLoading
         })
         .catch(err =>{

@@ -137,7 +137,7 @@ namespace DoanDanentang.Controllers
             catch { return BadRequest(); }
         }
 
-        [HttpGet("search/skill/{skill}")]
+        [HttpGet("search/skill")]
         public async Task<IActionResult> SearchRecruitmentsBySkill(string skill)
         {
             try
@@ -148,7 +148,7 @@ namespace DoanDanentang.Controllers
             catch { return BadRequest(); }
         }
 
-        [HttpGet("search/address/{address}")]
+        [HttpGet("search/address")]
         public async Task<IActionResult> SearchRecruitmentsByAddress(string address)
         {
             try
@@ -159,7 +159,7 @@ namespace DoanDanentang.Controllers
             catch { return BadRequest(); }
         }
 
-        [HttpGet("search/title/{title}")]
+        [HttpGet("search/title")]
         public async Task<IActionResult> SearchRecruitmentsByTitle(string title)
         {
             try

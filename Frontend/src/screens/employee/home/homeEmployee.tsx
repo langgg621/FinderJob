@@ -145,7 +145,6 @@ const HomeEmployee =()=>{
                         </Pressable>
                     </View>
                     <View>
-                        <ScrollView >
                         {showDescription && (
                             <View>
                                 <FlatList
@@ -163,7 +162,6 @@ const HomeEmployee =()=>{
                             />
                             </View>
                         )}
-                    </ScrollView>
                     </View>
                     
                 </View>

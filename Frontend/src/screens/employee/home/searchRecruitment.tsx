@@ -1,207 +1,93 @@
 import { useNavigation } from "@react-navigation/native";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { getAllRecruitmentAction, searchAddressAction, searchSalaryAction, searchSkillAction } from "../../../actions/recruitmentActions";
 import { IRecr } from "../../company/recruitment/IRecruitment";
 import { NAVIGATION_TITLE } from "../../../constants/navigation";
 import { TouchableOpacity, View , Text, SafeAreaView, Image, TextInput, ScrollView, StyleSheet, FlatList, Modal} from "react-native";
-import Picker from "react-native-picker-select";
+import { getAllRecruitmentAction } from "../../../actions/recruitmentActions";
 
-// ... (import statements)
+
 
 const SearchScreen = () => {
-    const dispatch = useDispatch<any>();
-    const navigation = useNavigation<any>();
-    const [listEntry, setListEntry] = useState<IRecr[]>([]);
-    const [refreshing, setRefreshing] = useState<boolean>(false);
-    const [tasks, setTasks] = useState<IRecr[]>([]);
-    const [filteredTasks, setFilteredTasks] = useState<IRecr[]>([]);
-    const [searchKeyword, setSearchKeyword] = useState<string>('');
-    // const [isModalVisible, setModalVisible] = useState(false);
-    // const [isModalVisible2, setModalVisible2] = useState(false);
-    // const [isModalVisible3, setModalVisible3] = useState(false);
-    // const [selectedAddress, setSelectedAddress] = useState('Hà Nội');
-    // const [selectedSkill, setSelectedSkill] = useState('Java');
-    // const [selectedSalary, setSelectedSalary] = useState({ start: 0, end: 0 });
+  const dispatch = useDispatch<any>();
+  const navigation = useNavigation<any>();
+  const [refreshing, setRefreshing] = useState<boolean>(false);
+  const [tasks, setTasks] = useState<IRecr[]>([]); // Original tasks
+  const [filteredTasks, setFilteredTasks] = useState<IRecr[]>([]); // Filtered tasks
+  const [searchKeyword, setSearchKeyword] = useState<string>('');
 
-    // useEffect(() => {
-    //   getListRecruitment();
-    // }, [selectedAddress, selectedSkill, selectedSalary]);
-  
-    const getListRecruitment = () => {
-      setRefreshing(true);
-      dispatch(getAllRecruitmentAction())
-        .then((res) => {
-          setRefreshing(false);
-          const convertListRecruitment = res?.payload;
-          setListEntry(convertListRecruitment);
-          setTasks(convertListRecruitment);
-        })
-        .catch((err) => {
-          setRefreshing(false);
-          console.error('Error fetching all recruitments:', err);
-        });
-    };
-  
-    useEffect(() => {
-      const filteredTasks = tasks.filter(
-        (item) =>
-          item.title.toLowerCase().includes(searchKeyword.toLowerCase()) ||
-          item.skillRequire.toLowerCase().includes(searchKeyword.toLowerCase())
-      );
-      setFilteredTasks(filteredTasks);
-    }, [searchKeyword, tasks]);
-  
-    const handleItem = (recruitment: IRecr) => {
-      navigation.navigate(NAVIGATION_TITLE.APPLY_JOB, { recrId: recruitment.id });
-    };
-  
-    const renderOverviewList = ({ item }: { item: IRecr }) => (
-      <TouchableOpacity onPress={() => handleItem(item)} style={styles.listItem}>
-        <View style={{ flex: 1 }}>
-          <Text style={styles.jobtitle}>{item.title}</Text>
-          <Text>{item.salary}</Text>
-          <Text>{item.address}</Text>
-        </View>
-      </TouchableOpacity>
-    );
-    // const toggleModal = () => {
-    //   setModalVisible(!isModalVisible);
-    // };
-  
-    // const handleAddressSelect = (address) => {
-    //   dispatch(searchAddressAction(address))
-    //   .then(res => {
-    //     setFilteredTasks(res.payload || [])
-    //     console.log(res,'helloo')
-    //   }) // Set the search results
-    //   .catch((error) => {
-    //     console.error('Error searching by address:', error);
-    //     setFilteredTasks([]); // Handle errors by setting an empty array or handling it as needed
-    //   });
-    //   setSelectedAddress(address);
-    //   toggleModal();
-    // };
-  
-    // const toggleModal2 = () => {
-    //   setModalVisible2(!isModalVisible2);
-    // };
-  
-    // const handleSkillSelect = (skill) => {
-    //   dispatch(searchSkillAction(skill))
-    //   .then((res) => setFilteredTasks(res.payload || [])) // Set the search results
-    //   .catch((error) => {
-    //     console.error('Error searching by address:', error);
-    //     setFilteredTasks([]); // Handle errors by setting an empty array or handling it as needed
-    //   });
-    //   setSelectedSkill(skill);
-    //   toggleModal2();
-    // };
-  
-    // const toggleModal3 = () => {
-    //   setModalVisible3(!isModalVisible3);
-    // };
-  
-    // const handleSalarySelect = ({ start, end }) => {
-    //   dispatch(searchSalaryAction({start, end}))
-    //   .then((res) => setFilteredTasks(res.payload || [])) // Set the search results
-    //   .catch((error) => {
-    //     console.error('Error searching by address:', error);
-    //     setFilteredTasks([]); // Handle errors by setting an empty array or handling it as needed
-    //   });
-    //   setSelectedSalary({ start, end });
-    //   toggleModal3();
-    // };
-  
-    // const renderAddressOption = (address) => (
-    //   <TouchableOpacity key={address} onPress={() => handleAddressSelect(address)}>
-    //     <Text style={styles.addressOption}>{address}</Text>
-    //   </TouchableOpacity>
-    // );
-  
-    // const renderSkillOption = (skill) => (
-    //   <TouchableOpacity key={skill} onPress={() => handleSkillSelect(skill)}>
-    //     <Text style={styles.addressOption}>{skill}</Text>
-    //   </TouchableOpacity>
-    // );
-  
-    // const renderSalaryOption = ({ start, end }) => (
-    //   <TouchableOpacity key={start} onPress={() => handleSalarySelect({ start, end })}>
-    //     <Text style={styles.addressOption}>{`${start} - ${end}`}</Text>
-    //   </TouchableOpacity>
-    // );
-    // const renderSearchResults = () => {
-    //   if (filteredTasks.length === 0) {
-    //     return <Text>No results found.</Text>;
-    //   }
-  
-    //   return (
-    //     <FlatList
-    //       data={filteredTasks}
-    //       keyExtractor={(item) => item.id.toString()}
-    //       renderItem={renderOverviewList}
-    //     />
-    //   );
-    // };
-    return (
-      <SafeAreaView style={styles.container}>
-        <View>
-          <View style={styles.sreachview}>
-            <View style={styles.sreach}>
-              <Image style={styles.imagesreach} source={require('../../../../assets/iconsreach.jpg')} />
-              <TextInput
-                placeholder={'Tìm theo tiêu đề, kĩ năng'}
-                value={searchKeyword}
-                onChangeText={(value) => setSearchKeyword(value)}
-              />
-            </View>
-            <TouchableOpacity style={styles.filterbtn}>
-              <Image style={styles.imagefilter} source={require('../../../../assets/ok.jpg')} />
-            </TouchableOpacity>
-          </View>
-          {/* <View style={styles.filterContainer}>
-          <TouchableOpacity style={styles.filter} onPress={toggleModal}>
-            <Text style={{color:'#fff'}}>Địa điểm</Text>
-          </TouchableOpacity>
-            <TouchableOpacity style={styles.filter} onPress={toggleModal2}>
-              <Text style={{color:'#fff'}}>Kĩ năng</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.filter} onPress={toggleModal3}>
-              <Text  style={{color:'#fff'}}>Lương</Text>
-            </TouchableOpacity>
-          </View>
-          <Modal animationType="slide" transparent={true} visible={isModalVisible}>
-            <View style={styles.modalContent}>
-              <TouchableOpacity onPress={toggleModal} >
-                {['Hà Nội', 'Đà Nẵng', 'Hồ Chí Minh'].map(renderAddressOption)}
-              </TouchableOpacity>
-            </View>
-          </Modal>
-          <Modal animationType="slide" transparent={true} visible={isModalVisible2}>
-            <View style={styles.modalContent}>
-              <TouchableOpacity onPress={toggleModal2} >
-                {['Java', '.Net', 'ReactJS'].map(renderSkillOption)}
-              </TouchableOpacity>
-            </View>
-          </Modal>
-          <Modal animationType="slide" transparent={true} visible={isModalVisible3}>
-            <View style={styles.modalContent}>
-              <TouchableOpacity onPress={toggleModal3} >
-              {[{ start: 0, end: 5000000 },{ start: 5000000, end: 10000000 },{ start: 10000000, end: 30000000 } ].map(renderSalaryOption)}
-              </TouchableOpacity>
-            </View>
-          </Modal> */}
-          <ScrollView>
-            <FlatList
-              data={filteredTasks}
-              keyExtractor={(item) => item.id.toString()}
-              renderItem={renderOverviewList}
-            />
-          </ScrollView>
-        </View>
-      </SafeAreaView>
-    );
+  useEffect(() => {
+    getListRecruitment();
+  }, []);
+
+  const getListRecruitment = () => {
+    setRefreshing(true);
+    dispatch(getAllRecruitmentAction())
+      .then((res) => {
+        setRefreshing(false);
+        const convertListRecruitment = res?.payload;
+        setTasks(convertListRecruitment); // Update the original tasks
+        handleSearch(convertListRecruitment); // Filter tasks based on the initial search keyword
+      })
+      .catch((err) => {
+        setRefreshing(false);
+        console.error('Error fetching all recruitments:', err);
+      });
   };
+
+  useEffect(() => {
+    handleSearch(tasks); // Filter tasks based on the current search keyword
+  }, [searchKeyword]);
+
+  const handleSearch = (tasksToFilter: IRecr[]) => {
+    const filteredTasks = tasksToFilter.filter(
+      (item) =>
+        item.title.toLowerCase().includes(searchKeyword.toLowerCase()) ||
+        item.skillRequire.toLowerCase().includes(searchKeyword.toLowerCase())
+    );
+    setFilteredTasks(filteredTasks);
+  };
+  const handleItem = (recruitment: IRecr) => {
+    navigation.navigate(NAVIGATION_TITLE.APPLY_JOB, { recrId: recruitment.id });
+  };
+
+  const renderOverviewList = ({ item }: { item: IRecr }) => (
+    <TouchableOpacity onPress={() => handleItem(item)} style={styles.listItem}>
+      <View style={{ flex: 1 }}>
+        <Text style={styles.jobtitle}>{item.title}</Text>
+        <Text>{item.salary}</Text>
+        <Text>{item.address}</Text>
+      </View>
+    </TouchableOpacity>
+  );
+
+  return (
+    <SafeAreaView style={styles.container}>
+      <View>
+        <View style={styles.sreachview}>
+          <View style={styles.sreach}>
+            <Image style={styles.imagesreach} source={require('../../../../assets/iconsreach.jpg')} />
+            <TextInput
+              placeholder={'Tìm theo tiêu đề, kĩ năng'}
+              value={searchKeyword}
+              onChangeText={(value) => setSearchKeyword(value)}
+            />
+          </View>
+          <TouchableOpacity style={styles.filterbtn} >
+            <Image style={styles.imagefilter} source={require('../../../../assets/ok.jpg')} />
+          </TouchableOpacity>
+        </View>
+        <View>
+          <FlatList
+            data={filteredTasks}
+            keyExtractor={(item) => item.id.toString()}
+            renderItem={renderOverviewList}
+          />
+        </View>
+      </View>
+    </SafeAreaView>
+  );
+};
   
   
 const styles = StyleSheet.create({
